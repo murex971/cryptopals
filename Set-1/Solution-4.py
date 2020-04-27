@@ -1,5 +1,3 @@
-# (A xor B) xor B = A
-
 from binascii import unhexlify,hexlify
 
 def score(string):
@@ -26,16 +24,17 @@ def score(string):
         	score += freq[c]
     return score
 
-def break_the_hack(hex_string):
-    max_score = 0
-    english_plaintext = ''
-    key = ''
-    local_score = 0
+max_score = 0
+english_plaintext = ''
+key = ''
+    
+for line in open("4.txt", "r"):
+    str = unhexlify(line.rstrip())
 
     for i in range(256):
         plaintext = ''
-        for x in range(0,len(hex_string)):
-            xor_char = chr(ord(hex_string[x])^i)
+        for x in range(0,len(str)):
+            xor_char = chr(ord(str[x])^i)
             plaintext += xor_char
         local_score = score(plaintext)
 
@@ -43,7 +42,5 @@ def break_the_hack(hex_string):
             max_score = local_score
             english_plaintext = plaintext
             key = chr(i)
-    return key, english_plaintext
-
-str1 = unhexlify("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")
-print break_the_hack(str1)
+    
+print key, english_plaintext
